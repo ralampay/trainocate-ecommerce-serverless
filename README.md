@@ -31,4 +31,6 @@ python bin/init_tables.py --dynamodb-url http://localhost:8001
 3. Run the local server endpoints
 
 ```
+docker run -p 8000:8000 amazon/dynamodb-local
+sam build && sam local start-api
 ```
