@@ -21,6 +21,9 @@ Globals:
   Function:
     Timeout: 3
     Runtime: python3.8
+    Environment:
+      Variables:
+        TABLE_NAME_COURSES: courses
 
 Resources:
 
@@ -57,7 +60,7 @@ Resources:
         CreateCourse:
           Type: Api
           Properties:
-            Path: /courses/{id}
+            Path: /courses/{code}
             Method: get
 
   DestroyCourseFunction:
