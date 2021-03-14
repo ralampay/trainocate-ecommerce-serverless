@@ -23,36 +23,54 @@ Globals:
     Runtime: python3.8
 
 Resources:
-  RestApi:
-    Type: AWS::Serverless::Api
-    Properties:
-      Name: !Sub 'TrainocateEcommerceServerlessApi-${State}'
-      StageName: "Prod"
-      Cors:
-        AllowMethods: "'*'"
-        AllowHeaders: "'*'"
-        AllowOrigin: "'*'"
-      DefinitionBody:
-        paths:
-          /courses:
-            get:
-              consumes:
-                - "application/json"
-              produces:
-                - "application/json"
 
   FetchCoursesFunction:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: fetch_courses/
       Handler: app.lambda_handler
-    Events:
-      FetchCourses:
-        Properties:
+      Events:
+        FetchCourses:
           Type: Api
-          Path: /courses
-          Method: get
-          RestApiId: !Ref RestApi
+          Properties:
+            Path: /courses
+            Method: get
+
+  SaveCourseFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: save_course/
+      Handler: app.lambda_handler
+      Events:
+        CreateCourse:
+          Type: Api
+          Properties:
+            Path: /courses
+            Method: post
+
+  ShowCourseFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: show_course/
+      Handler: app.lambda_handler
+      Events:
+        CreateCourse:
+          Type: Api
+          Properties:
+            Path: /courses/{id}
+            Method: get
+
+  DestroyCourseFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: destroy_course/
+      Handler: app.lambda_handler
+      Events:
+        CreateCourse:
+          Type: Api
+          Properties:
+            Path: /courses
+            Method: delete
 
 Outputs:
   ProdApi:
