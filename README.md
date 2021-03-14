@@ -16,3 +16,9 @@ Serverless components for trainocate-ecommerce
 ```
 python bin/init_tables.py
 ```
+
+To override the URL for dynamodb, pass `--dynamodb-url`:
+
+```
+python bin/init_tables.py --dynamodb-url http://localhost:8001
+```
