@@ -1,0 +1,60 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  trainocate-ecommerce-serverless
+
+  Sample SAM Template for trainocate-ecommerce-serverless
+
+Parameters:
+  Stage:
+    Type: String
+    AllowedValues:
+      - Stage
+      - Prod
+      - Test
+      - Dev
+    Default: Dev
+    Description: Stage to be appended to resource names
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 3
+    Runtime: python3.8
+
+Resources:
+  RestApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: !Sub 'TrainocateEcommerceServerlessApi-${State}'
+      StageName: "Prod"
+      Cors:
+        AllowMethods: "'*'"
+        AllowHeaders: "'*'"
+        AllowOrigin: "'*'"
+      DefinitionBody:
+        paths:
+          /courses:
+            get:
+              consumes:
+                - "application/json"
+              produces:
+                - "application/json"
+
+  FetchCoursesFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: fetch_courses/
+      Handler: app.lambda_handler
+    Events:
+      FetchCourses:
+        Properties:
+          Type: Api
+          Path: /courses
+          Method: get
+          RestApiId: !Ref RestApi
+
+Outputs:
+  ProdApi:
+    Description: "API Prod stage endpoint"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
