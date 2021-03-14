@@ -6,7 +6,7 @@ from botocore.exceptions import ClientError
 def lambda_handler(event, context):
 
   # Which dynamodb endpoint we will connect to
-  endpoint_url  = "http://localhost:8000"
+  endpoint_url  = "http://172.17.0.1:8000"
   table_name    = os.environ['TABLE_NAME_COURSES']
 
   # DynamoDB setup
@@ -16,9 +16,6 @@ def lambda_handler(event, context):
   try:
     print("Fetching data from table %s..." % (table_name))
     response  = table.scan()
-
-    print("Response:")
-    print(response)
 
     return {
       "statusCode": 200,

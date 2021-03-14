@@ -4,12 +4,17 @@ Serverless components for trainocate-ecommerce
 
 ## Requirements
 
+* docker
 * `aws-sam-cli` for local development
 * `boto3`
 
 ## Setting Up DynamoDB for Local Development
 
-1. Make sure to download and setup a local copy of DynamoDB from [here](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBLocal.DownloadingAndRunning.html) and run it. By default, it will run in `http://localhost:8000`
+1. Run a local copy of dynamodb via docker:
+
+```
+docker run -p 8000:8000 amazon/dynamodb-local
+```
 
 2. Create the tables
 
@@ -21,4 +26,9 @@ To override the URL for dynamodb, pass `--dynamodb-url`:
 
 ```
 python bin/init_tables.py --dynamodb-url http://localhost:8001
+```
+
+3. Run the local server endpoints
+
+```
 ```
