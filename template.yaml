@@ -25,6 +25,7 @@ Globals:
       Variables:
         TABLE_NAME_COURSES: courses
         DYNAMODB_URL: http://172.17.0.1:8000
+        XENDIT_API_KEY: xnd_public_development_yNpUiT0ibw0hPNolN6A23fwThYjZVzfPsr1ZKlnOPypOqVpbTKHjxpxcXHXAK
   Api:
     Cors:
       AllowMethods: "'*'"
@@ -33,6 +34,17 @@ Globals:
       AllowCredentials: True
 
 Resources:
+  MakeCreditCardPayment:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: make_credit_card_payment/
+      Handler: app.lambda_handler
+      Events:
+        MakeCreditCardPayment:
+          Type: Api
+          Properties:
+            Path: /maky-credit-card-payment
+            Method: post
 
   FetchCoursesFunction:
     Type: AWS::Serverless::Function
