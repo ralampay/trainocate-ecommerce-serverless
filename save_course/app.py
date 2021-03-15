@@ -12,7 +12,6 @@ def lambda_handler(event, context):
   table_name    = os.environ['TABLE_NAME_COURSES']
 
   params = json.loads(event["body"])
-
   print(params)
 
   code        = params["code"]
