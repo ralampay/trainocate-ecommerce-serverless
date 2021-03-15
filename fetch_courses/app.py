@@ -2,6 +2,15 @@ import json
 import boto3
 import os
 from botocore.exceptions import ClientError
+from decimal import Decimal
+
+def handle_decimal_type(obj):
+  if isinstance(obj, Decimal):
+    if float(obj).is_integer():
+      return int(obj)
+    else:
+      return float(obj)
+  raise TypeError
 
 def lambda_handler(event, context):
 
@@ -17,11 +26,21 @@ def lambda_handler(event, context):
     print("Fetching data from table %s..." % (table_name))
     response  = table.scan()
 
+    print(response["Items"])
+
+    courses = response["Items"]
+
     return {
       "statusCode": 200,
       "body": json.dumps({
-        "courses": response["Items"]
-      })
+        "courses": courses
+      }, default=handle_decimal_type),
+      "headers": {
+        'Access-Control-Allow-Methods': '*',
+        'Access-Control-Allow-Headers': '*',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': 'true'
+      }
     }
      
   except ClientError as e:
