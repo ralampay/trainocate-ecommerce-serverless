@@ -1,0 +1,23 @@
+version: 0.2
+phases:
+  install:
+    commands:
+    #  USED FOR SUBMODULES
+      - echo "Nothing to do"
+  pre_build:
+    commands:
+        - echo "Nothing to do"
+        - echo "dependencies install completed `date`"
+  build:
+    commands:
+      - echo "Starting build `date` in `pwd`"
+      - aws cloudformation package --template-file template.yaml --s3-bucket $BUILD_OUTPUT_BUCKET --s3-prefix $SERVICE --output-template-file app-output_sam.yaml
+  post_build:
+    commands:
+      - echo "build completed on `date`"
+      - echo "Syncing documentation"
+
+artifacts:
+  files:
+    - app-output_sam.yaml
+  discard-paths: yes
