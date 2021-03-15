@@ -8,7 +8,7 @@ from save_course import SaveCourse
 def lambda_handler(event, context):
   print(event)
   # Which dynamodb endpoint we will connect to
-  endpoint_url  = "http://172.17.0.1:8000"
+  endpoint_url  = os.environ["DYNAMODB_URL"]
   table_name    = os.environ['TABLE_NAME_COURSES']
 
   params = json.loads(event["body"])

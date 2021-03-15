@@ -15,7 +15,7 @@ def handle_decimal_type(obj):
 def lambda_handler(event, context):
 
   # Which dynamodb endpoint we will connect to
-  endpoint_url  = "http://172.17.0.1:8000"
+  endpoint_url  = os.environ["DYNAMODB_URL"]
   table_name    = os.environ['TABLE_NAME_COURSES']
 
   # DynamoDB setup

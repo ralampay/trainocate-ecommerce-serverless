@@ -24,6 +24,7 @@ Globals:
     Environment:
       Variables:
         TABLE_NAME_COURSES: courses
+        DYNAMODB_URL: http://172.17.0.1:8000
   Api:
     Cors:
       AllowMethods: "'*'"
