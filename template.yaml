@@ -24,6 +24,12 @@ Globals:
     Environment:
       Variables:
         TABLE_NAME_COURSES: courses
+  Api:
+    Cors:
+      AllowMethods: "'*'"
+      AllowHeaders: "'*'"
+      AllowOrigin: "'*'"
+      AllowCredentials: True
 
 Resources:
 
@@ -45,7 +51,7 @@ Resources:
       CodeUri: save_course/
       Handler: app.lambda_handler
       Events:
-        CreateCourse:
+        SaveCourse:
           Type: Api
           Properties:
             Path: /courses

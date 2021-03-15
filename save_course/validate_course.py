@@ -20,12 +20,12 @@ class ValidateCourse:
 
     if not self.price:
       self.errors.append("price is required")
-    elif float(self.price) <= 0.0
+    elif float(self.price) <= 0.0:
       self.errors.append("price should be positive")
 
     if not self.num_days:
       self.errors.append("num_days is required")
-    elif int(self.num_days) < 1
-      errors.append("num_days should be more than one")
+    elif int(self.num_days) < 1:
+      self.errors.append("num_days should be more than one")
 
-    return errors
+    return self.errors

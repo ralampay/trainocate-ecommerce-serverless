@@ -1,5 +1,6 @@
 import boto3
 from botocore.exceptions import ClientError
+from decimal import Decimal
 
 class SaveCourse:
   def __init__(self, code=None, name=None, description=None, price=None, num_days=None, endpoint_url=None, table_name=None):
@@ -19,7 +20,7 @@ class SaveCourse:
       "name":         self.name,
       "code":         self.code,
       "description":  self.description,
-      "price":        self.price,
+      "price":        Decimal(self.price),
       "num_days":     self.num_days
     }
 
@@ -29,7 +30,11 @@ class SaveCourse:
       response  = table.put_item(
                     Item=obj
                   )
+
+      obj["price"] = float(obj["price"])
     except ClientError as e:
+      print(e.response['Error']['Message'])
+      print("Something went wrong!")
     else:
       print("Successfully saved course %s..." % (self.code))
 

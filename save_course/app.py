@@ -6,7 +6,14 @@ from validate_course import ValidateCourse
 from save_course import SaveCourse
 
 def lambda_handler(event, context):
+  print(event)
+  # Which dynamodb endpoint we will connect to
+  endpoint_url  = "http://172.17.0.1:8000"
+  table_name    = os.environ['TABLE_NAME_COURSES']
+
   params = json.loads(event["body"])
+
+  print(params)
 
   code        = params["code"]
   name        = params["name"]
@@ -29,7 +36,13 @@ def lambda_handler(event, context):
       "statusCode": 400,
       "body": json.dumps({
         "errors": errors
-      })
+      }),
+      "headers": {
+        'Access-Control-Allow-Methods': '*',
+        'Access-Control-Allow-Headers': '*',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': 'true'
+      }
     }
 
   # Convert to proper data type
@@ -41,7 +54,9 @@ def lambda_handler(event, context):
           name=name,
           description=description,
           price=price,
-          num_days=num_days
+          num_days=num_days,
+          endpoint_url=endpoint_url,
+          table_name=table_name
         ).execute()
 
   if(type(obj) == bool):
@@ -49,12 +64,24 @@ def lambda_handler(event, context):
       "statusCode": 400,
       "body": json.dumps({
         "message": "Something went wrong",
-      })
+      }),
+      "headers": {
+        'Access-Control-Allow-Methods': '*',
+        'Access-Control-Allow-Headers': '*',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': 'true'
+      }
     }
   else:
     return {
       "statusCode": 200,
       "body": json.dumps({
         "course": obj,
-      })
+      }),
+      "headers": {
+        'Access-Control-Allow-Methods': '*',
+        'Access-Control-Allow-Headers': '*',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': 'true'
+      }
     }
