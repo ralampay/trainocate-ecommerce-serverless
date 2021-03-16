@@ -2,7 +2,7 @@ import boto3
 import argparse
 
 # Parameters
-DYNAMODB_URL        = "http://172.17.0.1:8000"
+DYNAMODB_URL        = None
 TABLE_NAME_COURSES  = "courses"
 
 # utility function to check if table_name exists

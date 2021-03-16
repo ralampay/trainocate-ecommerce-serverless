@@ -8,7 +8,7 @@ import uuid
 def lambda_handler(event, context):
   print(event)
   # Which dynamodb endpoint we will connect to
-  endpoint_url  = os.environ["DYNAMODB_URL"] || None
+  endpoint_url  = os.environ.get("DYNAMODB_URL")
   table_name    = os.environ['TABLE_NAME_COURSES']
   api_key       = os.environ['XENDIT_API_KEY']
 
