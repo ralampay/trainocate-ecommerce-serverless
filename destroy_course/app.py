@@ -6,7 +6,7 @@ from botocore.exceptions import ClientError
 def lambda_handler(event, context):
 
   # Which dynamodb endpoint we will connect to
-  endpoint_url  = os.environ["DYNAMODB_URL"]
+  endpoint_url  = os.environ["DYNAMODB_URL"] || None
   table_name    = os.environ['TABLE_NAME_COURSES']
 
   # DynamoDB setup
