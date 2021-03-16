@@ -5,6 +5,8 @@ from botocore.exceptions import ClientError
 from xendit import Xendit
 import uuid
 
+from validate_payment_details import ValidatePaymentDetails
+
 def lambda_handler(event, context):
   print(event)
   # Which dynamodb endpoint we will connect to
@@ -15,16 +17,45 @@ def lambda_handler(event, context):
   params = json.loads(event["body"])
   print(params)
 
-  first_name        = params["first_name"]
-  middle_name       = params["middle_name"]
-  last_name         = params["last_name"]
-  company           = params["company"]
-  email             = params["email"]
-  contact_number    = params["contact_number"]
-  course            = params["course"]
-  credit_card_token = params["credit_card_token"]
-  credit_card_cvn   = params["cvn"]
+  first_name        = params.get("first_name")
+  middle_name       = params.get("middle_name")
+  last_name         = params.get("last_name")
+  company           = params.get("company")
+  email             = params.get("email")
+  contact_number    = params.get("contact_number")
+  course            = params.get("course")
+  credit_card_token = params.get("credit_card_token")
+  credit_card_cvn   = params.get("cvn")
   external_id       = uuid.uuid1()
+
+  validator = ValidatePaymentDetails(
+                first_name=first_name,
+                last_name=last_name,
+                email=email,
+                contact_number=contact_number,
+                course=course,
+                credit_card_token=credit_card_token,
+                credit_card_cvn=credit_card_cvn
+              )
+
+  validator.execute()
+
+  if len(validator.errors) > 0:
+    errors = validator.errors
+
+    return {
+      "statusCode": 403,
+      "body": json.dumps({
+        "message": "invalid transaction",
+        "errors": errors
+      }),
+      "headers": {
+        'Access-Control-Allow-Methods': '*',
+        'Access-Control-Allow-Headers': '*',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': 'true'
+      }
+    }
 
   xendit_instance = Xendit(api_key=api_key)
 
