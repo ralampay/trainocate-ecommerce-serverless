@@ -43,7 +43,7 @@ Resources:
         MakeCreditCardPayment:
           Type: Api
           Properties:
-            Path: /maky-credit-card-payment
+            Path: /make-credit-card-payment
             Method: post
 
   FetchCoursesFunction:
