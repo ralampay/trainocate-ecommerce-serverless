@@ -26,7 +26,7 @@ def lambda_handler(event, context):
   course            = params.get("course")
   credit_card_token = params.get("credit_card_token")
   credit_card_cvn   = params.get("cvn")
-  external_id       = uuid.uuid1()
+  external_id       = str(uuid.uuid1())
 
   validator = ValidatePaymentDetails(
                 first_name=first_name,
@@ -64,7 +64,8 @@ def lambda_handler(event, context):
               token_id=credit_card_token,
               external_id=external_id,
               amount=course.get('price'),
-              card_cvn=credit_card_cvn
+              card_cvn=credit_card_cvn,
+              currency='PHP'
             )
 
   print(charge)
