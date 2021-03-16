@@ -58,11 +58,12 @@ def lambda_handler(event, context):
     }
 
   xendit_instance = Xendit(api_key=api_key)
+  credit_card     = xendit_instance.CreditCard
 
-  charge  = CreditCard.create_charge(
+  charge  = credit_card.create_charge(
               token_id=credit_card_token,
               external_id=external_id,
-              amount=course.price,
+              amount=course.get('price'),
               card_cvn=credit_card_cvn
             )
 

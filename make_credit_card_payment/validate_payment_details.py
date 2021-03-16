@@ -1,7 +1,7 @@
 import re
 
 class ValidatePaymentDetails:
-  def __init__(self, first_name=None, last_name=None, email=None, contact_number=None, course=None, credit_card_token=None, credit_card_cvn=None)
+  def __init__(self, first_name=None, last_name=None, email=None, contact_number=None, course=None, credit_card_token=None, credit_card_cvn=None):
     self.first_name         = first_name
     self.last_name          = last_name
     self.email              = email
