@@ -6,7 +6,8 @@ phases:
       - echo "Nothing to do"
   pre_build:
     commands:
-        - echo "Nothing to do"
+        - echo "Remove Local DynamoDB"
+        - "sed '/DYNAMODB_URL: http:\/\/172.17.0.1:8000/d' ./template.yaml"
         - echo "dependencies install completed `date`"
   build:
     commands:
